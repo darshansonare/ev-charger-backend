@@ -1,16 +1,20 @@
-require('dotenv').config();
+require('dotenv').config({ path: '../.env' }); // Load .env from parent folder
 const fs = require('fs');
 const mysql = require('mysql2');
+const path = require('path');
+
+// Read CA certificate (correct relative path from db.js to certificate folder)
+const ca = fs.readFileSync(path.join(__dirname, '../certificate/isrgrootx1.pem'), 'utf8');
 
 const connection = mysql.createConnection({
   host: process.env.DB_HOST,
-  port: process.env.PORT, // required for TiDB Cloud
+  port: process.env.PORT,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   ssl: {
-    ca: fs.readFileSync(process.env.CA),
-    rejectUnauthorized: true // this should be true when CA is valid
+    ca: ca,
+    rejectUnauthorized: true
   }
 });
 
