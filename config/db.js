@@ -1,13 +1,19 @@
+require('dotenv').config();
 const mysql = require('mysql2');
+
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'Pass@123',
-  database: 'charger_app'
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT
 });
 
 connection.connect((err) => {
-  if (err) throw err;
+  if (err) {
+    console.error('Database connection failed:', err.stack);
+    return;
+  }
   console.log('MySQL Connected');
 });
 
