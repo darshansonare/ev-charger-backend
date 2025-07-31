@@ -1,4 +1,4 @@
-// server.js
+require('dotenv').config(); // Load .env variables
 const express = require('express');
 const cors = require('cors');
 
@@ -6,9 +6,11 @@ const authRoutes = require('./routes/auth');
 const chargerRoutes = require('./routes/chargers');
 
 const app = express();
+const PORT = process.env.PORT;
 
 const allowedOrigins = [
   'http://localhost:5173',
+  'http://localhost:3000',
   'https://mapcharge.netlify.app'
 ];
 
@@ -29,11 +31,12 @@ app.use(express.json());
 app.use('/api', authRoutes);
 app.use('/api/chargers', chargerRoutes);
 
+// Test route
 app.get('/', (req, res) => {
-  res.send({ activeStatus: true });
+  res.send({ activeStatus: true, message: 'Local server running' });
 });
 
-// ✅ Vercel expects this
-module.exports = app;
-
-
+// ✅ Local server start
+app.listen(PORT, () => {
+  console.log(`🚀 Server running locally on http://localhost:${PORT}`);
+});
