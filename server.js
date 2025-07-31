@@ -10,15 +10,18 @@ const PORT = process.env.PORT;
 
 const allowedOrigins = [
   'http://localhost:5173',
-  'http://localhost:3000',
   'https://mapcharge.netlify.app'
+  
 ];
 
 app.use(cors({
   origin: (origin, callback) => {
+    console.log(`CORS request from origin: ${origin}`);
     if (!origin || allowedOrigins.includes(origin)) {
+      
       callback(null, true);
     } else {
+      console.log(`CORS error: Origin ${origin} not allowed`);
       callback(new Error('Not allowed by CORS'));
     }
   },

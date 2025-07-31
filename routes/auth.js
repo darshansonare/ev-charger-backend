@@ -37,6 +37,8 @@ router.post('/login', (req, res) => {
 });
 
 router.post('/register', (req, res) => {
+  console.log('Register request received');
+  console.log('Request body:', req.body);
   const { username, password } = req.body;
   const role = 'user'; // default role
 
