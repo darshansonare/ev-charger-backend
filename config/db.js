@@ -1,19 +1,20 @@
-require('dotenv').config({ path: '../.env' }); // or just `.env` if in same folder
+require('dotenv').config();
 const mysql = require('mysql2');
 
-const connection = mysql.createConnection({
+const db = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT || 3306
 });
 
-connection.connect((err) => {
+db.connect((err) => {
   if (err) {
     console.error('❌ Local MySQL connection failed:', err.message);
-    return;
+  } else {
+    console.log('✅ Local MySQL connected!');
   }
-  console.log('✅ Connected to Local MySQL!');
 });
 
-module.exports = connection;
+module.exports = db;
