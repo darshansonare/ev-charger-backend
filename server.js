@@ -8,22 +8,21 @@ const chargerRoutes = require('./routes/chargers');
 
 const app = express();
 
-// ✅ Allow both Netlify and localhost in CORS
 const allowedOrigins = [
+  'http://localhost:5173',
   'http://localhost:3000',
   'https://mapcharge.netlify.app'
 ];
 
 app.use(cors({
   origin: function (origin, callback) {
-    // allow requests with no origin (like mobile apps or curl)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
     } else {
-      return callback(new Error('Not allowed by CORS'));
+      callback(new Error('Not allowed by CORS'));
     }
-  }
+  },
+  credentials: true
 }));
 
 app.use(express.json());
