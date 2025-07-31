@@ -15,6 +15,13 @@ app.use('/api', authRoutes);
 // ✅ Charger routes
 app.use('/api/chargers', chargerRoutes);
 
+app.get('/', (req, res) => {
+  res.send({
+    activeStatus: true,
+    error: false
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
