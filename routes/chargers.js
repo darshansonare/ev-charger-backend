@@ -3,7 +3,7 @@ const router = express.Router();
 const db = require('../config/db');
 const auth = require('../middleware/auth');
 
-// ✅ Show all chargers to all logged-in users
+// show all chargers to all logged-in users
 router.get('/', auth, (req, res) => {
   db.query('SELECT * FROM chargers', (err, results) => {
     if (err) return res.status(500).json({ message: 'Error fetching chargers' });
@@ -13,7 +13,6 @@ router.get('/', auth, (req, res) => {
 
 
 // Add a charger
-// POST Add Charger
 router.post('/', auth, (req, res) => {
   const { name, status, location, latitude, longitude } = req.body;
   const userId = req.user.id;
@@ -40,5 +39,5 @@ router.delete('/:id', auth, (req, res) => {
     res.json({ message: 'Charger deleted' });
   });
 });
-
+// we use this for export in another file
 module.exports = router;
